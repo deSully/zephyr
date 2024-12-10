@@ -17,6 +17,19 @@ Zephyr aims to simplify and optimize caching by automating manual decisions and 
 
 Zephyr stands out by offering an automated and intelligent approach to caching, reducing maintenance overhead while boosting system efficiency. It’s the ideal solution for developers who prioritize both performance and sustainability.
 
+
+## Running Zephyr with Docker
+
+To quickly get started with Zephyr, you can run it using Docker. Follow these steps:
+
+1. **Build the Docker image:**
+   Ensure you're in the project directory, then build the Docker image:
+
+   ```bash
+   docker run -d -p 8097:8097 --name zephyr-container zephyr
+
+    ```
+
 ## Contribution
 
 We welcome contributions from the community to improve and expand Zephyr. Check out the [CONTRIBUTING.md](CONTRIBUTING.md) file for more details.
