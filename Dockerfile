@@ -1,17 +1,29 @@
-# Utilisez l'image officielle de Python 3.12
+# Utiliser l'image officielle Python 3.12
 FROM python:3.12-slim
 
-# Définir le répertoire de travail
+# Installer les dépendances nécessaires, y compris sqlite3
+RUN apt-get update && apt-get install -y sqlite3
+
+# Créer un répertoire pour l'application
 WORKDIR /app
 
-# Copier les fichiers de l'application
+# Copier tous les fichiers du projet dans le conteneur
 COPY . /app
 
-# Installer les dépendances
-RUN pip install --no-cache-dir -r requirements.txt
+# Copier le script d'initialisation de la base de données
+COPY init_db.sql /app/init_db.sql
 
-# Exposer le port utilisé par l'application FastAPI
+# Copier le script d'entrypoint
+COPY entrypoint.sh /entrypoint.sh
+
+# Rendre le script d'entrypoint exécutable
+RUN chmod +x /entrypoint.sh
+
+# Installer les dépendances Python
+RUN pip install -r requirements.txt
+
+# Définir l'entrypoint pour exécuter le script d'initialisation et démarrer l'application
+ENTRYPOINT ["/entrypoint.sh"]
+
+# Exposer le port 8000 pour FastAPI
 EXPOSE 8000
-
-# Commande pour démarrer le serveur
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
