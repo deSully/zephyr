@@ -10,6 +10,12 @@ WORKDIR /app
 # Copier tous les fichiers du projet dans le conteneur
 COPY . /app
 
+# Create a directory for storing metrics data (SQLite DB)
+RUN mkdir -p /app/data
+
+# Define the volume for SQLite database storage
+VOLUME ["/app/data"]
+
 # Copier le script d'initialisation de la base de données
 COPY init_db.sql /app/init_db.sql
 

@@ -26,7 +26,7 @@ To quickly get started with Zephyr, you can run it using Docker. Follow these st
    Ensure you're in the project directory, then build the Docker image:
 
    ```bash
-   docker run -d -p 8097:8097 --name zephyr-container zephyr
+   docker run -d -p 8097:8097 -v /path/on/host:/app/data zephyr
 
     ```
 
