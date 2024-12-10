@@ -2,10 +2,10 @@ from fastapi import APIRouter
 from app.schemas.metrics import OperationCreate
 from app.repositories.metrics import MetricsRepository
 
-router = APIRouter()
+metrics_router = APIRouter()
 repo = MetricsRepository()
 
-@router.post("/metrics/")
+@metrics_router.post("/metrics/")
 async def create_metrics(data: OperationCreate):
     """Create a new operation and insert metrics"""
     repo.create_service(data.service_name)
