@@ -1,5 +1,6 @@
 from app.models import db
 from app.schemas.metrics import  MetricData
+from typing import Optional
 
 class MetricsRepository:
     def create_service(self, service_name: str):
@@ -30,3 +31,25 @@ class MetricsRepository:
         query = "INSERT INTO api_metrics (operation_id, metric_type, value, timestamp) VALUES (?, ?, ?, ?)"
         db.execute(query, (operation_id, metric.metric_type, metric.value, metric.timestamp))
         db.commit()
+
+    def get_metrics(self, operation_name: Optional[str] = None, service_name: Optional[str] = None):
+        # Définir la requête de base avec une jointure entre les tables
+        query = """
+            SELECT am.id, am.operation_id, am.metric_type, am.value, am.timestamp, 
+                   o.name AS operation_name, s.name AS service_name
+            FROM api_metrics am
+            JOIN operations o ON am.operation_id = o.id
+            JOIN services s ON o.service_id = s.id
+            WHERE 1=1
+        """
+
+        # Ajouter des filtres à la requête si les paramètres sont fournis
+        if operation_name:
+            query += f" AND o.name = '{operation_name}'"
+        if service_name:
+            query += f" AND s.name = '{service_name}'"
+
+        # Effectuer la requête et retourner les résultats
+        results = db.execute(query)  # Exécution de la requête dans la base de données
+        return results
+
