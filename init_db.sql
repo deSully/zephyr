@@ -20,12 +20,12 @@ CREATE TABLE IF NOT EXISTS operations (
 CREATE TABLE IF NOT EXISTS api_metrics (
                                            id INTEGER PRIMARY KEY,
                                            operation_id INTEGER,
-                                           error_count INTEGER DEFAULT 0,
-                                           latency REAL DEFAULT 0.0,
-                                           duration REAL DEFAULT 0.0,
+                                           metric_type TEXT NOT NULL,  -- Ajout de la colonne metric_type
+                                           value REAL NOT NULL,        -- Ajout de la colonne value
                                            timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                                            FOREIGN KEY (operation_id) REFERENCES operations(id)
     );
+
 
 -- Table pour stocker les TTL calculés en fonction des métriques
 CREATE TABLE IF NOT EXISTS ttl_calculations (

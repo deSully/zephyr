@@ -32,4 +32,4 @@ RUN pip install -r requirements.txt
 ENTRYPOINT ["/entrypoint.sh"]
 
 # Exposer le port 8000 pour FastAPI
-EXPOSE 8000
+EXPOSE 8097
