@@ -51,5 +51,31 @@ class MetricsRepository:
 
         # Effectuer la requête et retourner les résultats
         results = db.execute(query)  # Exécution de la requête dans la base de données
-        return results
+        rows = results.fetchall()
+
+        print(rows)
+
+        # Structurer les données par service -> opérations -> métriques
+        grouped_metrics = {}
+        for row in rows:
+            service = row[0]
+            operation = row[1]
+            metric = {
+                "metric_type": row[2],
+                "value": row[3],
+                "timestamp": format_timestamp(row[4]),
+            }
+
+            # Organisation hiérarchique des données
+            if service not in grouped_metrics:
+                grouped_metrics[service] = {}
+            if operation not in grouped_metrics[service]:
+                grouped_metrics[service][operation] = []
+            grouped_metrics[service][operation].append(metric)
+
+        return grouped_metrics
+
+def format_timestamp(timestamp: str):
+    """Format the timestamp to a more readable format"""
+    return timestamp.split("T")[0] + " " + timestamp.split("T")[1].split(".")[0]
 

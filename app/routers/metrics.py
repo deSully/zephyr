@@ -1,10 +1,10 @@
-from idlelib.query import Query
+from fastapi import  Query
 from typing import Optional, List
 
 from fastapi import APIRouter
 from app.schemas.metrics import OperationCreate
 from app.repositories.metrics import MetricsRepository
-from schemas.metrics import MetricData
+from app.schemas.metrics import MetricData
 
 metrics_router = APIRouter()
 repo = MetricsRepository()
@@ -25,7 +25,7 @@ async def create_metrics(data: OperationCreate):
 
     return {"status": "success", "message": "Metrics added successfully"}
 
-@metrics_router.get("/metrics/", response_model=List[MetricData])
+@metrics_router.get("/metrics/")
 async def get_metrics(
         operation_name: Optional[str] = Query(None, alias="operation_name", description="Filtrer par nom de l'opération"),
         service_name: Optional[str] = Query(None, alias="service_name", description="Filtrer par nom du service")
