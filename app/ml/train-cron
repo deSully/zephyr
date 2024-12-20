@@ -1,0 +1,2 @@
+# crontab
+0 * * * * python3 /app/ml/train.py >> /var/log/train.log 2>&1
