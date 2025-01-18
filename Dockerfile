@@ -29,13 +29,13 @@ RUN chmod +x /entrypoint.sh
 RUN pip install -r requirements.txt
 
 # Copier le fichier de configuration Cron
-COPY train-cron /etc/cron.d/train-cron
+COPY crontab_config /etc/cron.d/train-cron
 
 # Donner les bonnes permissions au fichier Cron
 RUN chmod 0644 /etc/cron.d/train-cron
 
 # Appliquer la configuration Cron
-RUN crontab /etc/cron.d/train-cron
+RUN crontab /etc/cron.d/crontab_config
 
 # Exposer le port 8097 pour FastAPI
 EXPOSE 8097
