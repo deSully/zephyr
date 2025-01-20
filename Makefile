@@ -33,9 +33,3 @@ status:
 # Commande pour afficher les logs du conteneur
 logs:
 	docker logs -f  $(CONTAINER_NAME)
-
-API_URL=http://localhost:8097/api/metrics
-
-# Commande pour récupérer la liste des métriques
-show-metrics:
-	curl -s $(API_URL) | jq '.data[] | "\(.id) \(.operation_name) \(.service_name) \(.metric_type) \(.value) \(.timestamp)"'

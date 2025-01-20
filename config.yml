@@ -1,0 +1,22 @@
+collector:
+  type: prometheus
+  server_url: "http://prometheus-server:9090"
+
+services:
+  - name: "service-a"
+    apis:
+      - name: "api-1"
+        endpoint: "/api/v1/resource"
+        cron: "*/5 * * * *"  # Toutes les 5 minutes
+      - name: "api-2"
+        endpoint: "/api/v1/status"
+        cron: "*/10 * * * *"  # Toutes les 10 minutes
+  - name: "service-b"
+    apis:
+      - name: "api-3"
+        endpoint: "/api/v2/data"
+        cron: "*/15 * * * *"  # Toutes les 15 minutes
+
+train:
+  cron: "0 0 * * *"  # Exécution tous les jours à minuit
+  results_path: "/path/to/results"  # Répertoire pour stocker les résultats d'entraînement

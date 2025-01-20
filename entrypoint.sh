@@ -1,8 +1,17 @@
 #!/bin/bash
 
-# Initialiser la base de données SQLite
-sqlite3 /app/data/db.sqlite3 < /app/init_db.sql
+# Vérifier si le fichier de configuration est monté
+if [ ! -f /app/config/config.yml ]; then
+  echo "Erreur : Le fichier de configuration config.yml est manquant dans /app/config."
+  exit 1
+fi
 
-# Démarrer l'application FastAPI avec uvicorn
-uvicorn app.main:app --host 0.0.0.0 --port 8097
+# Initialiser la base de données si nécessaire
+if [ ! -f /app/data/metrics.db ]; then
+  echo "Initialisation de la base de données..."
+  sqlite3 /app/data/metrics.db < /app/init_db.sql
+fi
 
+# Lancer l'application FastAPI et le JobManager
+echo "Démarrage de l'application et du gestionnaire de tâches..."
+exec python main.py
